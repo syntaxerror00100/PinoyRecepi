@@ -6,7 +6,7 @@ class AppTheme {
   static String appName = "Pinoy recipes";
 
   // Material Design Color
-  static Color lightPrimary = HexColor('#54D3C2');
+  static Color primaryColor = HexColor('#54D3C2');
   static Color lightAccent = Color(0xFF3B72FF);
   static Color lightBackground = Color(0xfffcfcff);
 
@@ -38,7 +38,7 @@ class AppTheme {
   static ThemeData lighTheme(BuildContext context) {
     return ThemeData(
       backgroundColor: lightBackground,
-      primaryColor: lightPrimary,
+      primaryColor: primaryColor,
       accentColor: lightAccent,
       cursorColor: lightAccent,
       scaffoldBackgroundColor: lightBackground,

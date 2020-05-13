@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
 import '../../Widgets/SearchBarWidget.dart';
+import '../../AppTheme.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  BuildContext _mainContext;
+
+  final categories = [
+    {'Label': 'By Ingredients', 'IsSelected': true},
+    {'Label': 'By Course', 'IsSelected': false},
+    {'Label': 'By Type', 'IsSelected': false}
+  ];
+
   @override
   Widget build(BuildContext context) {
+    _mainContext = context;
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -12,7 +27,7 @@ class HomeScreen extends StatelessWidget {
               getAppBarUI(),
               SearchBarWidget(),
               SizedBox(height: 5),
-              getCategoriesUI(),
+              getCategoriesUI(context),
             ],
           ),
         ),
@@ -20,7 +35,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  Widget getCategoriesUI() {
+  Widget getCategoriesUI(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
         left: 16,
@@ -29,11 +44,44 @@ class HomeScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-          Text('By main ingredient'),
-          Text('By Course'),
-          Text('By Type'),
+          ...categories
+              .map((e) => getCategoryButton(e['Label'], e['IsSelected']))
+              .toList(),
+          // getCategoryButton('By Ingredients', false),
+          // getCategoryButton('By Course', false),
+          // getCategoryButton('By Type', false),
         ],
       ),
+    );
+  }
+
+  Widget getCategoryButton(String label, bool isActive) {
+    return InkWell(
+      onTap: () {},
+      borderRadius: BorderRadius.all(
+        Radius.circular(20),
+      ),
+      child: Container(
+          width: 120,
+          height: 45,
+          padding: EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            color: isActive ? AppTheme.primaryColor : Colors.transparent,
+            border: Border.all(
+              color: AppTheme.primaryColor,
+            ),
+            borderRadius: BorderRadius.all(
+              Radius.circular(20),
+            ),
+          ),
+          child: Center(
+            child: Text(
+              label,
+              style: TextStyle(
+                color: isActive ? Colors.white : AppTheme.primaryColor,
+              ),
+            ),
+          )),
     );
   }
 
