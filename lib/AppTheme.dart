@@ -6,8 +6,8 @@ class AppTheme {
   static String appName = "Pinoy recipes";
 
   // Material Design Color
-  static Color primaryColor = HexColor('#54D3C2');
-  static Color lightAccent = Color(0xFF3B72FF);
+  static Color primaryColor = HexColor('#4dd0e1');
+  static Color lightAccent = HexColor('#ec407a');
   static Color lightBackground = Color(0xfffcfcff);
 
   static Color darkPrimary = Colors.black;
@@ -42,11 +42,19 @@ class AppTheme {
       accentColor: lightAccent,
       cursorColor: lightAccent,
       scaffoldBackgroundColor: lightBackground,
-      textTheme: GoogleFonts.robotoCondensedTextTheme(Theme.of(context)
-          .textTheme), // GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
+      textTheme:
+          GoogleFonts.robotoCondensedTextTheme(Theme.of(context).textTheme)
+              .copyWith(
+        headline6: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+
+      //  textTheme:
+      //     GoogleFonts.cedarvilleCursiveTextTheme(Theme.of(context).textTheme),
       appBarTheme: AppBarTheme(
-        textTheme: GoogleFonts.robotoCondensedTextTheme(Theme.of(context)
-            .textTheme), // GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
+        textTheme:
+            GoogleFonts.robotoCondensedTextTheme(Theme.of(context).textTheme),
         iconTheme: IconThemeData(
           color: lightAccent,
         ),

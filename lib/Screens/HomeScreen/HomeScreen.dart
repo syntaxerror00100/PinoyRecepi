@@ -28,8 +28,89 @@ class _HomeScreenState extends State<HomeScreen> {
               SearchBarWidget(),
               SizedBox(height: 5),
               getCategoriesUI(context),
+              SizedBox(height: 15),
+              Expanded(
+                child: getCategoryList(),
+              ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget getCategoryList() {
+    return Container(
+      margin: EdgeInsets.all(10),
+      child: GridView(
+        children: [
+          getCategoryItem(),
+          getCategoryItem(),
+          getCategoryItem(),
+          getCategoryItem(),
+          getCategoryItem(),
+          getCategoryItem(),
+        ],
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200,
+            childAspectRatio: 3 / 2,
+            crossAxisSpacing: 20,
+            mainAxisSpacing: 20),
+      ),
+    );
+  }
+
+  Widget getCategoryItem() {
+    return InkWell(
+      child: Container(
+        width: 180,
+        height: 100,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(
+            Radius.circular(15),
+          ),
+          image: DecorationImage(
+              image: NetworkImage(
+                  'https://panlasangpinoy.com/wp-content/uploads/2015/05/Pininyahang-manok_-266x160.jpg'),
+              fit: BoxFit.cover),
+          color: Colors.red,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey,
+              offset: Offset(0.0, 1.0), //(x,y)
+              blurRadius: 6.0,
+            ),
+          ],
+        ),
+        padding: EdgeInsets.only(left: 4, right: 4),
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 30,
+                  width: 150,
+                  padding: EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).accentColor.withOpacity(.65),
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(15),
+                        topLeft: Radius.circular(15),
+                      )),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      'Pork recipes asdfasd fasdf',
+                      style: Theme.of(context).textTheme.headline6,
+                      softWrap: true,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
