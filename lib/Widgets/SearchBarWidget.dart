@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../database.dart';
 
 class SearchBarWidget extends StatelessWidget {
   @override
@@ -65,8 +66,16 @@ class SearchBarWidget extends StatelessWidget {
                 borderRadius: const BorderRadius.all(
                   Radius.circular(32.0),
                 ),
-                onTap: () {
+                onTap: () async {
                   FocusScope.of(context).requestFocus(FocusNode());
+
+                  var dbTest = DatabaseConnection();
+                  var top10Test = await dbTest.getTest();
+                  for (var item in top10Test) {
+                    print(item['Title']);
+                  }
+                  // print(top10Test.first);
+                  // print(top10Test.first['Title']);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),

@@ -50,6 +50,8 @@ class _HomeScreenState extends State<HomeScreen> {
           getCategoryItem(),
           getCategoryItem(),
           getCategoryItem(),
+          getCategoryItem(),
+          getCategoryItem(),
         ],
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 200,
