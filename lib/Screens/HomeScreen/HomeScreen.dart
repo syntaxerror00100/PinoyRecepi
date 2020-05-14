@@ -8,17 +8,17 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  BuildContext _mainContext;
+  //BuildContext _mainContext;
 
-  final categories = [
-    {'Label': 'By Ingredients', 'IsSelected': true},
-    {'Label': 'By Course', 'IsSelected': false},
-    {'Label': 'By Type', 'IsSelected': false}
+  var categories = [
+    {'Id': 1, 'Label': 'By Ingredients', 'IsSelected': true},
+    {'Id': 2, 'Label': 'By Course', 'IsSelected': false},
+    {'Id': 3, 'Label': 'By Type', 'IsSelected': false}
   ];
 
   @override
   Widget build(BuildContext context) {
-    _mainContext = context;
+    //  _mainContext = context;
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -35,6 +35,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  void toggleCategorySelection(int selectedId) {
+    setState(() {
+      for (var category in categories) {
+        category['IsSelected'] = category['Id'] == selectedId;
+      }
+    });
+  }
+
   Widget getCategoriesUI(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(
@@ -42,10 +50,11 @@ class _HomeScreenState extends State<HomeScreen> {
         right: 16,
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           ...categories
-              .map((e) => getCategoryButton(e['Label'], e['IsSelected']))
+              .map((e) =>
+                  getCategoryButton(e['Label'], e['IsSelected'], e['Id']))
               .toList(),
           // getCategoryButton('By Ingredients', false),
           // getCategoryButton('By Course', false),
@@ -55,9 +64,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget getCategoryButton(String label, bool isActive) {
+  Widget getCategoryButton(String label, bool isActive, int id) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        toggleCategorySelection(id);
+      },
       borderRadius: BorderRadius.all(
         Radius.circular(20),
       ),
