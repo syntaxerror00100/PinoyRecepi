@@ -123,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Radius.circular(15),
           ),
           image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),
-          color: Colors.red,
+          color: Colors.teal,
           boxShadow: [
             BoxShadow(
               color: Colors.grey,
