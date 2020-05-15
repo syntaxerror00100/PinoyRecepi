@@ -1,6 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../../Widgets/SearchBarWidget.dart';
 import '../../AppTheme.dart';
+import '../../DataAccess/RecepiMainIngredientsRepository.dart';
+import '../../DataAccess/RecipeCourseRepository.dart';
+import '../../DataAccess/RecipeTypeRepository.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -10,11 +14,63 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   //BuildContext _mainContext;
 
+  @override
+  void initState() {
+    _loadCategories(1);
+
+    super.initState();
+  }
+
   var categories = [
     {'Id': 1, 'Label': 'By Ingredients', 'IsSelected': true},
     {'Id': 2, 'Label': 'By Course', 'IsSelected': false},
     {'Id': 3, 'Label': 'By Type', 'IsSelected': false}
   ];
+
+  var categoryItems = [];
+
+  void _loadCategories(int id) async {
+    var categoryResults = [];
+    switch (id) {
+      case 1:
+        final results = await RecepiMainIngredientsRepository().getAll();
+        categoryResults = results
+            .map((e) => {
+                  'title': e.name,
+                  'url':
+                      'https://panlasangpinoy.com/wp-content/uploads/2015/05/Pininyahang-manok_-266x160.jpg'
+                })
+            .toList();
+        print('Ingredients');
+        break;
+      case 2:
+        final results = await RecipeCourseRepository().getAll();
+        categoryResults = results
+            .map((e) => {
+                  'title': e.name,
+                  'url':
+                      'https://panlasangpinoy.com/wp-content/uploads/2015/05/Pininyahang-manok_-266x160.jpg'
+                })
+            .toList();
+        print('Course');
+        break;
+      case 3:
+        final results = await RecipeTypeRepository().getAll();
+        categoryResults = results
+            .map((e) => {
+                  'title': e.name,
+                  'url':
+                      'https://panlasangpinoy.com/wp-content/uploads/2015/05/Pininyahang-manok_-266x160.jpg'
+                })
+            .toList();
+        print('Type');
+        break;
+    }
+
+    setState(() {
+      categoryItems = categoryResults;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +100,9 @@ class _HomeScreenState extends State<HomeScreen> {
       margin: EdgeInsets.all(10),
       child: GridView(
         children: [
-          getCategoryItem(),
-          getCategoryItem(),
-          getCategoryItem(),
-          getCategoryItem(),
-          getCategoryItem(),
-          getCategoryItem(),
-          getCategoryItem(),
-          getCategoryItem(),
+          ...categoryItems
+              .map((e) => getCategoryItem(e['title'], e['url']))
+              .toList()
         ],
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
             maxCrossAxisExtent: 200,
@@ -62,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget getCategoryItem() {
+  Widget getCategoryItem(String title, String url) {
     return InkWell(
       child: Container(
         width: 180,
@@ -71,10 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
           borderRadius: BorderRadius.all(
             Radius.circular(15),
           ),
-          image: DecorationImage(
-              image: NetworkImage(
-                  'https://panlasangpinoy.com/wp-content/uploads/2015/05/Pininyahang-manok_-266x160.jpg'),
-              fit: BoxFit.cover),
+          image: DecorationImage(image: NetworkImage(url), fit: BoxFit.cover),
           color: Colors.red,
           boxShadow: [
             BoxShadow(
@@ -103,7 +151,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      'Pork recipes asdfasd fasdf',
+                      title,
                       style: Theme.of(context).textTheme.headline6,
                       softWrap: true,
                       overflow: TextOverflow.fade,
@@ -118,12 +166,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void toggleCategorySelection(int selectedId) {
+  void toggleCategorySelection(int selectedId) async {
     setState(() {
       for (var category in categories) {
         category['IsSelected'] = category['Id'] == selectedId;
       }
     });
+    await _loadCategories(selectedId);
   }
 
   Widget getCategoriesUI(BuildContext context) {
