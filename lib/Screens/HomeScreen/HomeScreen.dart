@@ -2,9 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../../Widgets/SearchBarWidget.dart';
 import '../../AppTheme.dart';
-import '../../DataAccess/RecepiMainIngredientsRepository.dart';
-import '../../DataAccess/RecipeCourseRepository.dart';
-import '../../DataAccess/RecipeTypeRepository.dart';
+import '../../DataAccess/DatabaseRepository.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -33,7 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
     var categoryResults = [];
     switch (id) {
       case 1:
-        final results = await RecepiMainIngredientsRepository().getAll();
+        final results =
+            await DatabaseRepository.recipeMainIngredientsRepository.getAll();
         categoryResults = results
             .map((e) => {
                   'title': e.name,
@@ -44,7 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
         print('Ingredients');
         break;
       case 2:
-        final results = await RecipeCourseRepository().getAll();
+        final results =
+            await DatabaseRepository.recipeCourseRepository.getAll();
         categoryResults = results
             .map((e) => {
                   'title': e.name,
@@ -55,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
         print('Course');
         break;
       case 3:
-        final results = await RecipeTypeRepository().getAll();
+        final results = await DatabaseRepository.recipeTypeRepository.getAll();
         categoryResults = results
             .map((e) => {
                   'title': e.name,
