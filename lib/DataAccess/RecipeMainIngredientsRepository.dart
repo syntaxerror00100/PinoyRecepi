@@ -5,7 +5,7 @@ class RecipeMainIngredientsRepository {
   Future<List<RecipeMainIngredientsModel>> getAll() async {
     final db = await DatabaseBase.instance.database;
 
-    var result = await db.query("RecepiMainIngredients");
+    var result = await db.query("RecipeMainIngredients");
     if (result == null) return null;
 
     return result.map((x) => RecipeMainIngredientsModel.fromMap(x)).toList();

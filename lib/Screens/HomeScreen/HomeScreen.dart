@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import '../../Widgets/SearchBarWidget.dart';
 import '../../AppTheme.dart';
 import '../../DataAccess/DatabaseRepository.dart';
+import '../../Enums/Enums.dart';
+import './../../ViewModel/CategoryViewModel.dart';
+import '../Recipe/RecipeListScreen.dart';
 
 class HomeScreen extends StatefulWidget {
+  static const route = '/';
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -14,53 +18,62 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    _loadCategories(1);
+    _loadCategories(CategoryEnum.ByMainIngredients);
 
     super.initState();
   }
 
+  BuildContext _mainContext;
+
   var categories = [
-    {'Id': 1, 'Label': 'By Ingredients', 'IsSelected': true},
-    {'Id': 2, 'Label': 'By Course', 'IsSelected': false},
-    {'Id': 3, 'Label': 'By Type', 'IsSelected': false}
+    CategoryViewModel(
+      category: CategoryEnum.ByMainIngredients,
+      label: 'By Ingredients',
+      isSelected: true,
+    ),
+    CategoryViewModel(
+      category: CategoryEnum.ByCourse,
+      label: 'By Course',
+    ),
+    CategoryViewModel(
+      category: CategoryEnum.ByType,
+      label: 'By Type',
+    ),
   ];
 
   var categoryItems = [];
 
-  void _loadCategories(int id) async {
+  void _loadCategories(CategoryEnum selectedCategory) async {
     var categoryResults = [];
-    switch (id) {
-      case 1:
+    switch (selectedCategory) {
+      case CategoryEnum.ByMainIngredients:
         final results =
             await DatabaseRepository.recipeMainIngredientsRepository.getAll();
         categoryResults = results
             .map((e) => {
                   'title': e.name,
-                  'url':
-                      'https://panlasangpinoy.com/wp-content/uploads/2015/05/Pininyahang-manok_-266x160.jpg'
+                  'url': e.thumbNaimImageUrl,
                 })
             .toList();
         print('Ingredients');
         break;
-      case 2:
+      case CategoryEnum.ByCourse:
         final results =
             await DatabaseRepository.recipeCourseRepository.getAll();
         categoryResults = results
             .map((e) => {
                   'title': e.name,
-                  'url':
-                      'https://panlasangpinoy.com/wp-content/uploads/2015/05/Pininyahang-manok_-266x160.jpg'
+                  'url': e.thumbNaimImageUrl,
                 })
             .toList();
         print('Course');
         break;
-      case 3:
+      case CategoryEnum.ByType:
         final results = await DatabaseRepository.recipeTypeRepository.getAll();
         categoryResults = results
             .map((e) => {
                   'title': e.name,
-                  'url':
-                      'https://panlasangpinoy.com/wp-content/uploads/2015/05/Pininyahang-manok_-266x160.jpg'
+                  'url': e.thumbNaimImageUrl,
                 })
             .toList();
         print('Type');
@@ -74,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //  _mainContext = context;
+    _mainContext = context;
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -115,6 +128,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget getCategoryItem(String title, String url) {
     return InkWell(
+      onTap: () {
+        final selectedCategory =
+            categories.singleWhere((element) => element.isSelected);
+        final selectedCategoryItemTitle = title;
+
+        Navigator.pushNamed(_mainContext, RecipesListScreen.route, arguments: {
+          'selectedCategory': selectedCategory.category,
+          'title': selectedCategoryItemTitle
+        });
+      },
       child: Container(
         width: 180,
         height: 100,
@@ -166,13 +189,13 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void toggleCategorySelection(int selectedId) async {
+  void toggleCategorySelection(CategoryViewModel selectedCategory) async {
     setState(() {
       for (var category in categories) {
-        category['IsSelected'] = category['Id'] == selectedId;
+        category.isSelected = category.category == selectedCategory.category;
       }
     });
-    await _loadCategories(selectedId);
+    await _loadCategories(selectedCategory.category);
   }
 
   Widget getCategoriesUI(BuildContext context) {
@@ -184,10 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          ...categories
-              .map((e) =>
-                  getCategoryButton(e['Label'], e['IsSelected'], e['Id']))
-              .toList(),
+          ...categories.map((e) => getCategoryButton(e)).toList(),
           // getCategoryButton('By Ingredients', false),
           // getCategoryButton('By Course', false),
           // getCategoryButton('By Type', false),
@@ -196,10 +216,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget getCategoryButton(String label, bool isActive, int id) {
+  Widget getCategoryButton(CategoryViewModel selectedCategory) {
     return InkWell(
       onTap: () {
-        toggleCategorySelection(id);
+        toggleCategorySelection(selectedCategory);
       },
       borderRadius: BorderRadius.all(
         Radius.circular(20),
@@ -209,7 +229,9 @@ class _HomeScreenState extends State<HomeScreen> {
           height: 45,
           padding: EdgeInsets.all(10),
           decoration: BoxDecoration(
-            color: isActive ? AppTheme.primaryColor : Colors.transparent,
+            color: selectedCategory.isSelected
+                ? AppTheme.primaryColor
+                : Colors.transparent,
             border: Border.all(
               color: AppTheme.primaryColor,
             ),
@@ -219,9 +241,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           child: Center(
             child: Text(
-              label,
+              selectedCategory.label,
               style: TextStyle(
-                color: isActive ? Colors.white : AppTheme.primaryColor,
+                color: selectedCategory.isSelected
+                    ? Colors.white
+                    : AppTheme.primaryColor,
               ),
             ),
           )),

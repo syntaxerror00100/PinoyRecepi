@@ -1,11 +1,11 @@
-import './RecepiRepository.dart';
+import './RecipeRepository.dart';
 import './RecipeCourseRepository.dart';
 import './RecipeTypeRepository.dart';
 import './RecipeMainIngredientsRepository.dart';
 
 class DatabaseRepository {
   static void _init() {
-    if (_recepiRepository == null) _recepiRepository = RecepiRepository();
+    if (_recepiRepository == null) _recepiRepository = RecipeRepository();
 
     if (_recipeCourseRepository == null)
       _recipeCourseRepository = RecipeCourseRepository();
@@ -17,12 +17,12 @@ class DatabaseRepository {
       _recipeMainIngredientRepository = RecipeMainIngredientsRepository();
   }
 
-  static RecepiRepository _recepiRepository;
+  static RecipeRepository _recepiRepository;
   static RecipeCourseRepository _recipeCourseRepository;
   static RecipeTypeRepository _recipeTypeRepository;
   static RecipeMainIngredientsRepository _recipeMainIngredientRepository;
 
-  static RecepiRepository get recipeRepository {
+  static RecipeRepository get recipeRepository {
     _init();
     return _recepiRepository;
   }
