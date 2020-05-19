@@ -1,11 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:pinoy_recipes/ViewModel/CategoryItemViewModel.dart';
 import '../../Widgets/SearchBarWidget.dart';
 import '../../AppTheme.dart';
 import '../../DataAccess/DatabaseRepository.dart';
 import '../../Enums/Enums.dart';
 import './../../ViewModel/CategoryViewModel.dart';
 import '../Recipe/RecipeListScreen.dart';
+import '../../DTO/RecipeListScreenParamDto.dart';
 
 class HomeScreen extends StatefulWidget {
   static const route = '/';
@@ -41,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   ];
 
-  var categoryItems = [];
+  List<CategoryItemViewModel> categoryItems = [];
 
   void _loadCategories(CategoryEnum selectedCategory) async {
     var categoryResults = [];
@@ -50,33 +52,30 @@ class _HomeScreenState extends State<HomeScreen> {
         final results =
             await DatabaseRepository.recipeMainIngredientsRepository.getAll();
         categoryResults = results
-            .map((e) => {
-                  'title': e.name,
-                  'url': e.thumbNaimImageUrl,
-                })
+            .map((e) => new CategoryItemViewModel(
+                  e.name,
+                  e.thumbNaimImageUrl,
+                ))
             .toList();
-        print('Ingredients');
         break;
       case CategoryEnum.ByCourse:
         final results =
             await DatabaseRepository.recipeCourseRepository.getAll();
         categoryResults = results
-            .map((e) => {
-                  'title': e.name,
-                  'url': e.thumbNaimImageUrl,
-                })
+            .map((e) => new CategoryItemViewModel(
+                  e.name,
+                  e.thumbNaimImageUrl,
+                ))
             .toList();
-        print('Course');
         break;
       case CategoryEnum.ByType:
         final results = await DatabaseRepository.recipeTypeRepository.getAll();
         categoryResults = results
-            .map((e) => {
-                  'title': e.name,
-                  'url': e.thumbNaimImageUrl,
-                })
+            .map((e) => new CategoryItemViewModel(
+                  e.name,
+                  e.thumbNaimImageUrl,
+                ))
             .toList();
-        print('Type');
         break;
     }
 
@@ -114,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: GridView(
         children: [
           ...categoryItems
-              .map((e) => getCategoryItem(e['title'], e['url']))
+              .map((e) => getCategoryItem(e.title, e.imageUri))
               .toList()
         ],
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -133,10 +132,9 @@ class _HomeScreenState extends State<HomeScreen> {
             categories.singleWhere((element) => element.isSelected);
         final selectedCategoryItemTitle = title;
 
-        Navigator.pushNamed(_mainContext, RecipesListScreen.route, arguments: {
-          'selectedCategory': selectedCategory.category,
-          'title': selectedCategoryItemTitle
-        });
+        Navigator.pushNamed(_mainContext, RecipesListScreen.route,
+            arguments: new RecipeListScreenParamDto(
+                selectedCategoryItemTitle, selectedCategory.category));
       },
       child: Container(
         width: 180,

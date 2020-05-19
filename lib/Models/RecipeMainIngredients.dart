@@ -1,4 +1,5 @@
 class RecipeMainIngredientsModel {
+  int id;
   int recepiId;
   String name;
   String thumbNaimImageUrl;
@@ -7,5 +8,6 @@ class RecipeMainIngredientsModel {
     recepiId = map['RecepiId'];
     name = map['Name'];
     thumbNaimImageUrl = map['ThumbNaimImageUrl'];
+    id = map['Id'];
   }
 }

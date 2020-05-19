@@ -10,4 +10,14 @@ class RecipeTypeRepository {
 
     return result.map((x) => RecipeTypeModel.fromMap(x)).toList();
   }
+
+  Future<RecipeTypeModel> getByName(String name) async {
+    final db = await DatabaseBase.instance.database;
+
+    var result =
+        await db.query("RecipeTypes", where: 'Name=?', whereArgs: [name]);
+    if (result == null) return null;
+
+    return RecipeTypeModel.fromMap(result.first);
+  }
 }
