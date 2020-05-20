@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pinoy_recipes/Screens/HomeScreen/HomeScreen.dart';
-import 'package:pinoy_recipes/Screens/Recipe/RecipeListScreen.dart';
+import 'package:pinoy_recipes/Screens/RecipeList/RecipeListScreen.dart';
+import './Screens/RecipeDetails/RecipeDetailsScreen.dart';
 
 import './AppTheme.dart';
 import './Screens/HomeScreen/HomeScreen.dart';
-import './Screens/Recipe/RecipeListScreen.dart';
+import './Screens/RecipeList/RecipeListScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
       routes: {
         HomeScreen.route: (_) => HomeScreen(),
         RecipesListScreen.route: (_) => RecipesListScreen(),
+        RecipeDetailsScreen.route: (_) => RecipeDetailsScreen()
       },
     );
   }

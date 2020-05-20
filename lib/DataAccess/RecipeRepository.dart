@@ -22,8 +22,6 @@ class RecipeRepository {
       CategoryEnum category, String categoryName) async {
     final db = await DatabaseBase.instance.database;
 
-    List<Map<String, Object>> result;
-
     switch (category) {
       case CategoryEnum.ByMainIngredients:
         final mainIngredient = await DatabaseRepository

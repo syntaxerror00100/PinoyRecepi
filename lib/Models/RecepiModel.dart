@@ -27,7 +27,7 @@ class RecepiModel {
     title = map['Title'];
     summary = map['Summary'];
     url = map['url'];
-    thumbNailUrl = map['ThumbNaimUrl'];
+    thumbNailUrl = map['ThumbNailUrl'];
     youtubeUrl = map['YoutubeUrl'];
     typeId = map['TypeId'];
     mainIngredidentId = map['MainIngredidentId'];

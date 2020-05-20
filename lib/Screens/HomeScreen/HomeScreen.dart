@@ -1,3 +1,4 @@
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:pinoy_recipes/ViewModel/CategoryItemViewModel.dart';
@@ -6,7 +7,7 @@ import '../../AppTheme.dart';
 import '../../DataAccess/DatabaseRepository.dart';
 import '../../Enums/Enums.dart';
 import './../../ViewModel/CategoryViewModel.dart';
-import '../Recipe/RecipeListScreen.dart';
+import '../RecipeList/RecipeListScreen.dart';
 import '../../DTO/RecipeListScreenParamDto.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -103,6 +104,18 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: CurvedNavigationBar(
+        items: [
+          Icon(Icons.home),
+          Icon(Icons.favorite),
+        ],
+        color: Colors.white,
+        buttonBackgroundColor: Theme.of(context).backgroundColor,
+        backgroundColor: Colors.blueAccent,
+        animationCurve: Curves.easeInOut,
+        animationDuration: Duration(milliseconds: 600),
+        onTap: (index) {},
       ),
     );
   }
