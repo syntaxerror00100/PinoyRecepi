@@ -7,6 +7,7 @@ class RecipeInstructionsRepository {
 
     var result = await db.query(
       "RecipeInstructions",
+      orderBy: 'OrderNumber ASC',
       where: 'RecepiId=?',
       whereArgs: [recipeId],
     );

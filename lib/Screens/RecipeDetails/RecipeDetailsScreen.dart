@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:pinoy_recipes/Models/RecepiModel.dart';
 import './Ingredients.dart';
+import './Instructions.dart';
 
 class RecipeDetailsScreen extends StatelessWidget {
   static const route = 'recepi-details';
@@ -27,6 +28,11 @@ class RecipeDetailsScreen extends StatelessWidget {
                 Navigator.pop(context);
               },
             ),
+            actions: <Widget>[
+              Container(
+                  margin: EdgeInsets.only(right: 15),
+                  child: Icon(Icons.favorite)),
+            ],
             //title: Text("SliverAppBar Title"),
             expandedHeight: 220.0,
             flexibleSpace: FlexibleSpaceBar(
@@ -49,17 +55,13 @@ class RecipeDetailsScreen extends StatelessWidget {
               Ingredients(
                 recepiId: selectedRecepi.id,
               ),
-              ...getSampleList(),
+              Instructions(
+                recepiId: selectedRecepi.id,
+              ),
             ]),
           )
         ],
       ),
     );
-  }
-
-  List<Widget> getSampleList() {
-    final list = new List<int>.generate(50, (int index) => index * index);
-
-    return list.map((e) => Text(e.toString())).toList();
   }
 }

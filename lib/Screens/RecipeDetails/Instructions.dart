@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import '../../DataAccess/DatabaseRepository.dart';
-import '../../Models/RecipeIngredientModel.dart';
+import '../../Models/RecipeInstructionModel.dart';
 
-class Ingredients extends StatelessWidget {
+class Instructions extends StatelessWidget {
   final int recepiId;
 
-  Ingredients({@required this.recepiId});
-  List<RecipeIngredientModel> _ingredients = [];
+  Instructions({this.recepiId});
+  List<RecipeInstructionModel> _instructions = [];
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class Ingredients extends StatelessWidget {
       future: _getIngredientsAsync(),
       builder: (ctx, snapshot) {
         if (snapshot.connectionState == ConnectionState.done)
-          return _renderIngredients(context, snapshot.data);
+          return _renderInstructions(context, snapshot.data);
         else
           return SizedBox(
             height: 10,
@@ -25,20 +25,18 @@ class Ingredients extends StatelessWidget {
     );
   }
 
-  Future<List<RecipeIngredientModel>> _getIngredientsAsync() async {
-    if (_ingredients.length > 0) return _ingredients;
+  Future<List<RecipeInstructionModel>> _getIngredientsAsync() async {
+    if (_instructions.length > 0) return _instructions;
 
-    _ingredients = await DatabaseRepository.recipeIngredientsRepository
+    _instructions = await DatabaseRepository.recipeInstructionsRepository
         .getByRecipeId(recepiId);
 
-    debugPrint('Ingredients is ${_ingredients.length}');
-
-    return _ingredients;
+    return _instructions;
   }
 
-  Widget _renderIngredients(
+  Widget _renderInstructions(
     BuildContext ctx,
-    List<RecipeIngredientModel> ingredients,
+    List<RecipeInstructionModel> instructions,
   ) {
     return Container(
       margin: EdgeInsets.symmetric(
@@ -48,10 +46,10 @@ class Ingredients extends StatelessWidget {
       child: Column(
         children: <Widget>[
           Text(
-            'Ingredients',
+            'Instruction',
             style: Theme.of(ctx).textTheme.headline5,
           ),
-          ...ingredients
+          ...instructions
               .map(
                 (e) => _renderIngredientListItem(ctx, e),
               )
@@ -63,9 +61,10 @@ class Ingredients extends StatelessWidget {
 
   Widget _renderIngredientListItem(
     BuildContext ctx,
-    RecipeIngredientModel ingredient,
+    RecipeInstructionModel insctruction,
   ) {
     return Container(
+      width: double.infinity,
       margin: EdgeInsets.symmetric(
         vertical: 5,
       ),
@@ -74,16 +73,19 @@ class Ingredients extends StatelessWidget {
           CircleAvatar(
             backgroundColor: Theme.of(ctx).accentColor,
             radius: 13,
-            child: Icon(
-              Icons.add,
-              color: Theme.of(ctx).backgroundColor,
+            child: Text(
+              '${insctruction.orderNumber + 1}',
+              style: TextStyle(
+                color: Colors.white,
+              ),
             ),
           ),
           SizedBox(
             width: 5,
           ),
-          Text(
-            ingredient.ingredient,
+          Expanded(
+            child: Text(insctruction.details,
+                style: Theme.of(ctx).textTheme.bodyText1),
           ),
         ],
       ),

@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pinoy_recipes/Models/RecepiModel.dart';
 import '../RecipeDetails/RecipeDetailsScreen.dart';
+import '../RecipeDetails/RecipeDetailsScreen_new.dart';
 
 class RecepiListItem extends StatelessWidget {
   final RecepiModel recepi;
@@ -14,7 +15,7 @@ class RecepiListItem extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(
           context,
-          RecipeDetailsScreen.route,
+          RecipeDetailsScreen_new.route,
           arguments: recepi,
         );
       },
