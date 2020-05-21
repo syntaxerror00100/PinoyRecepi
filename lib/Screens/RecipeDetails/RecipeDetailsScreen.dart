@@ -37,11 +37,14 @@ class RecipeDetailsScreen extends StatelessWidget {
             expandedHeight: 220.0,
             flexibleSpace: FlexibleSpaceBar(
               centerTitle: true,
-              title: Text(
-                selectedRecepi.title,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16.0,
+              title: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Text(
+                  selectedRecepi.title,
+                  style: TextStyle(
+                    color: Colors.black87,
+                    fontSize: 14.0,
+                  ),
                 ),
               ),
               background: CachedNetworkImage(

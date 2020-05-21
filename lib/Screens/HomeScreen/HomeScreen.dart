@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
         buttonBackgroundColor: Theme.of(context).backgroundColor,
         backgroundColor: Colors.blueAccent,
         animationCurve: Curves.easeInOut,
-        animationDuration: Duration(milliseconds: 600),
+        animationDuration: Duration(milliseconds: 300),
         onTap: (index) {},
       ),
     );

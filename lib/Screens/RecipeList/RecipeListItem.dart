@@ -15,7 +15,7 @@ class RecepiListItem extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(
           context,
-          RecipeDetailsScreen_new.route,
+          RecipeDetailsScreen.route,
           arguments: recepi,
         );
       },
