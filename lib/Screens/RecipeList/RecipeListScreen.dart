@@ -94,7 +94,7 @@ class RecipesListScreen extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 22,
                   letterSpacing: 0.27,
-                  color: Colors.black45, // DesignCourseAppTheme.darkerText,
+                  color: Colors.black87, // DesignCourseAppTheme.darkerText,
                 ),
               ),
             ),

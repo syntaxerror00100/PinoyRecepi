@@ -12,7 +12,11 @@ class RecepiListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.pushNamed(context, RecipeDetailsScreen.route);
+        Navigator.pushNamed(
+          context,
+          RecipeDetailsScreen.route,
+          arguments: recepi,
+        );
       },
       child: Card(
         elevation: 4,
@@ -29,14 +33,23 @@ class RecepiListItem extends StatelessWidget {
               children: <Widget>[
                 _getImageRecepiImage(),
                 Positioned(
-                  bottom: 10,
-                  right: 0,
-                  width: 300,
-                  child: _getTitle(context),
-                )
+                  top: 5,
+                  right: 5,
+                  child: Icon(
+                    Icons.favorite_border,
+                    size: 40,
+                    color: Theme.of(context).accentColor,
+                  ),
+                ),
+                // Positioned(
+                //   bottom: 10,
+                //   right: 0,
+                //   width: 300,
+                //   child: _getTitle(context),
+                // )
               ],
             ),
-            _getBottomItems(),
+            _getBottomItems(context),
           ],
         ),
       ),
@@ -82,7 +95,7 @@ class RecepiListItem extends StatelessWidget {
     );
   }
 
-  Widget _getBottomItems() {
+  Widget _getBottomItems(BuildContext ctx) {
     return Container(
       child: Container(
         margin: EdgeInsets.symmetric(
@@ -92,15 +105,21 @@ class RecepiListItem extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Expanded(
-              child: Text(
-                recepi.summary,
-                overflow: TextOverflow.ellipsis,
-                softWrap: true,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  recepi.title,
+                  overflow: TextOverflow.ellipsis,
+                  softWrap: true,
+                  style: Theme.of(ctx).textTheme.headline6.copyWith(
+                        color: Colors.black87,
+                      ),
+                ),
               ),
             ),
-            Icon(
-              Icons.favorite_border,
-            )
+            // Icon(
+            //   Icons.favorite_border,
+            // )
           ],
         ),
       ),
