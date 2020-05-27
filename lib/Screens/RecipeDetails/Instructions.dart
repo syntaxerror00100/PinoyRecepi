@@ -43,12 +43,8 @@ class Instructions extends StatelessWidget {
         horizontal: 20,
         vertical: 5,
       ),
-      child: Column(
+      child: ListView(
         children: <Widget>[
-          Text(
-            'Instruction',
-            style: Theme.of(ctx).textTheme.headline5,
-          ),
           ...instructions
               .map(
                 (e) => _renderIngredientListItem(ctx, e),

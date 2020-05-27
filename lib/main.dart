@@ -7,6 +7,7 @@ import './AppTheme.dart';
 import './Screens/HomeScreen/HomeScreen.dart';
 import './Screens/RecipeList/RecipeListScreen.dart';
 import './Screens/RecipeDetails/RecipeDetailsScreen_new.dart';
+import './Screens/RecipeDetails/RecipeDetailsWithTabScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
         RecipesListScreen.route: (_) => RecipesListScreen(),
         RecipeDetailsScreen.route: (_) => RecipeDetailsScreen(),
         RecipeDetailsScreen_new.route: (_) => RecipeDetailsScreen_new(),
+        RecipeDetailsWithTabScreen.route: (_) => RecipeDetailsWithTabScreen(),
       },
     );
   }

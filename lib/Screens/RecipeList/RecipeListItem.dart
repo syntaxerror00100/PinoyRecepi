@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pinoy_recipes/Models/RecepiModel.dart';
 import '../RecipeDetails/RecipeDetailsScreen.dart';
 import '../RecipeDetails/RecipeDetailsScreen_new.dart';
+import '../RecipeDetails/RecipeDetailsWithTabScreen.dart';
 
 class RecepiListItem extends StatelessWidget {
   final RecepiModel recepi;
@@ -15,7 +16,7 @@ class RecepiListItem extends StatelessWidget {
       onTap: () {
         Navigator.pushNamed(
           context,
-          RecipeDetailsScreen.route,
+          RecipeDetailsWithTabScreen.route,
           arguments: recepi,
         );
       },
@@ -81,17 +82,20 @@ class RecepiListItem extends StatelessWidget {
         topLeft: Radius.circular(10),
         topRight: Radius.circular(10),
       ),
-      child: CachedNetworkImage(
-        height: 200,
-        width: double.infinity,
-        fit: BoxFit.cover,
-        imageUrl: recepi.thumbNailUrl,
-        //placeholder: (_, __) => CircularProgressIndicator(),
-        progressIndicatorBuilder: (context, url, downloadProgress) =>
-            CircularProgressIndicator(
-          value: downloadProgress.progress,
+      child: Hero(
+        tag: recepi.id,
+        child: CachedNetworkImage(
+          height: 200,
+          width: double.infinity,
+          fit: BoxFit.cover,
+          imageUrl: recepi.thumbNailUrl,
+          //placeholder: (_, __) => CircularProgressIndicator(),
+          progressIndicatorBuilder: (context, url, downloadProgress) =>
+              CircularProgressIndicator(
+            value: downloadProgress.progress,
+          ),
+          errorWidget: (context, url, error) => Icon(Icons.error),
         ),
-        errorWidget: (context, url, error) => Icon(Icons.error),
       ),
     );
   }

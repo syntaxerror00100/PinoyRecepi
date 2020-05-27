@@ -45,12 +45,8 @@ class Ingredients extends StatelessWidget {
         horizontal: 20,
         vertical: 5,
       ),
-      child: Column(
+      child: ListView(
         children: <Widget>[
-          Text(
-            'Ingredients',
-            style: Theme.of(ctx).textTheme.headline5,
-          ),
           ...ingredients
               .map(
                 (e) => _renderIngredientListItem(ctx, e),
