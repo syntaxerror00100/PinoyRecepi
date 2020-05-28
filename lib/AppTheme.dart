@@ -20,6 +20,9 @@ class AppTheme {
 
   static Color backgroundColor = Color(0xFFF5F5F7);
 
+  // Grey
+  static Color lighGray = HexColor('#f9f9f9');
+
   // Green
   static Color darkGreen = Color(0xFF3ABD6F);
   static Color lightGreen = Color(0xFFA1ECBF);
