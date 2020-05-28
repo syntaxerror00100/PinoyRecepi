@@ -46,12 +46,7 @@ class AppTheme {
       cursorColor: lightAccent,
       scaffoldBackgroundColor: lightBackground,
       textTheme:
-          GoogleFonts.robotoCondensedTextTheme(Theme.of(context).textTheme)
-              .copyWith(
-        headline6: TextStyle(
-          color: Colors.white,
-        ),
-      ),
+          GoogleFonts.robotoCondensedTextTheme(Theme.of(context).textTheme),
 
       //  textTheme:
       //     GoogleFonts.cedarvilleCursiveTextTheme(Theme.of(context).textTheme),

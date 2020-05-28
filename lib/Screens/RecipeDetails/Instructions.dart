@@ -59,31 +59,23 @@ class Instructions extends StatelessWidget {
     BuildContext ctx,
     RecipeInstructionModel insctruction,
   ) {
-    return Container(
-      width: double.infinity,
-      margin: EdgeInsets.symmetric(
-        vertical: 5,
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundColor: Theme.of(ctx).accentColor,
+        radius: 13,
+        child: Text(
+          '${insctruction.orderNumber + 1}',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
       ),
-      child: Row(
-        children: <Widget>[
-          CircleAvatar(
-            backgroundColor: Theme.of(ctx).accentColor,
-            radius: 13,
-            child: Text(
-              '${insctruction.orderNumber + 1}',
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          Expanded(
-            child: Text(insctruction.details,
-                style: Theme.of(ctx).textTheme.bodyText1),
-          ),
-        ],
+      title: Text(
+        insctruction.details,
+        style: Theme.of(ctx).textTheme.headline6,
+      ),
+      subtitle: Divider(
+        color: Colors.grey,
       ),
     );
   }

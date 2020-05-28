@@ -61,27 +61,22 @@ class Ingredients extends StatelessWidget {
     BuildContext ctx,
     RecipeIngredientModel ingredient,
   ) {
-    return Container(
-      margin: EdgeInsets.symmetric(
-        vertical: 5,
+    return ListTile(
+      leading: CircleAvatar(
+        backgroundColor: Theme.of(ctx).accentColor,
+        radius: 13,
+        child: Icon(
+          Icons.add,
+          color: Theme.of(ctx).backgroundColor,
+        ),
       ),
-      child: Row(
-        children: <Widget>[
-          CircleAvatar(
-            backgroundColor: Theme.of(ctx).accentColor,
-            radius: 13,
-            child: Icon(
-              Icons.add,
-              color: Theme.of(ctx).backgroundColor,
-            ),
-          ),
-          SizedBox(
-            width: 5,
-          ),
-          Text(
-            ingredient.ingredient,
-          ),
-        ],
+      title: Text(
+        ingredient.ingredient,
+        textAlign: TextAlign.left,
+        style: Theme.of(ctx).textTheme.headline6,
+      ),
+      subtitle: Divider(
+        color: Colors.grey,
       ),
     );
   }

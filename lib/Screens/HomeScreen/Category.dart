@@ -21,8 +21,6 @@ class _CategoryState extends State<Category> {
     super.initState();
   }
 
-  BuildContext _mainContext;
-
   var categories = [
     CategoryViewModel(
       category: CategoryEnum.ByMainIngredients,
@@ -43,7 +41,6 @@ class _CategoryState extends State<Category> {
 
   @override
   Widget build(BuildContext context) {
-    _mainContext = context;
     return Column(
       children: <Widget>[
         getCategoriesUI(context),
@@ -102,7 +99,7 @@ class _CategoryState extends State<Category> {
       child: GridView(
         children: [
           ...categoryItems
-              .map((e) => getCategoryItem(e.title, e.imageUri))
+              .map((e) => getCategoryItem_new(e.title, e.imageUri))
               .toList()
         ],
         gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -121,7 +118,7 @@ class _CategoryState extends State<Category> {
             categories.singleWhere((element) => element.isSelected);
         final selectedCategoryItemTitle = title;
 
-        Navigator.pushNamed(_mainContext, RecipesListScreen.route,
+        Navigator.pushNamed(context, RecipesListScreen.route,
             arguments: new RecipeListScreenParamDto(
                 selectedCategoryItemTitle, selectedCategory.category));
       },
@@ -163,6 +160,85 @@ class _CategoryState extends State<Category> {
                     child: Text(
                       title,
                       style: Theme.of(context).textTheme.headline6,
+                      softWrap: true,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget getCategoryItem_new(String title, String url) {
+    return InkWell(
+      onTap: () {
+        final selectedCategory =
+            categories.singleWhere((element) => element.isSelected);
+        final selectedCategoryItemTitle = title;
+
+        Navigator.pushNamed(
+          context,
+          RecipesListScreen.route,
+          arguments: new RecipeListScreenParamDto(
+            selectedCategoryItemTitle,
+            selectedCategory.category,
+          ),
+        );
+      },
+      child: Container(
+        height: 200,
+        child: Stack(
+          children: <Widget>[
+            Container(
+              width: 180,
+              height: 113,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(15),
+                ),
+                image: DecorationImage(
+                  image: NetworkImage(url),
+                  fit: BoxFit.cover,
+                ),
+                color: Colors.teal,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    offset: Offset(0.0, 1.0), //(x,y)
+                    blurRadius: 6.0,
+                  ),
+                ],
+              ),
+              padding: EdgeInsets.only(
+                left: 4,
+                right: 4,
+              ),
+            ),
+            Positioned(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  height: 30,
+                  width: 150,
+                  padding: EdgeInsets.all(3),
+                  decoration: BoxDecoration(
+                    //color: AppTheme.lighGray.withOpacity(.65),
+                    color: Theme.of(context).accentColor.withOpacity(.65),
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(15),
+                    ),
+                  ),
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      title,
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                            color: Colors.white,
+                          ),
                       softWrap: true,
                       overflow: TextOverflow.fade,
                     ),

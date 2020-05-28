@@ -1,23 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:pinoy_recipes/ViewModel/CategoryItemViewModel.dart';
 import '../../Widgets/SearchBarWidget.dart';
-import '../../AppTheme.dart';
-import '../../DataAccess/DatabaseRepository.dart';
-import '../../Enums/Enums.dart';
-import './../../ViewModel/CategoryViewModel.dart';
-import '../RecipeList/RecipeListScreen.dart';
-import '../../DTO/RecipeListScreenParamDto.dart';
 import 'Category.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   static const route = '/';
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   //BuildContext _mainContext;
 
   @override

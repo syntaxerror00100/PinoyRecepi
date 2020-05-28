@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pinoy_recipes/Models/RecepiModel.dart';
 import '../RecipeDetails/Ingredients.dart';
 import '../RecipeDetails/Instructions.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class RecipeDetailsWithTabScreen extends StatelessWidget {
   static const String route = 'recipe-details-with-tabs';
@@ -69,18 +70,22 @@ class RecipeDetailsWithTabScreen extends StatelessWidget {
 
   Widget getTabUI(int selectedRecipeId) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: TabBar(tabs: [
           Tab(
-            icon: Icon(Icons.home),
+            text: 'Ingredients',
+            icon: Icon(Icons.assignment_turned_in),
           ),
           Tab(
-            icon: Icon(Icons.details),
+            text: 'Instruction',
+            icon: FaIcon(
+              FontAwesomeIcons.conciergeBell,
+            ),
           ),
-          Tab(
-            icon: Icon(Icons.info),
-          ),
+          // Tab(
+          //   icon: Icon(Icons.info),
+          // ),
         ]),
         body: TabBarView(
           children: [
@@ -90,7 +95,7 @@ class RecipeDetailsWithTabScreen extends StatelessWidget {
             Instructions(
               recepiId: selectedRecipeId,
             ),
-            Icon(Icons.directions_bike),
+            // Icon(Icons.directions_bike),
           ],
         ),
       ),
