@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pinoy_recipes/DTO/RecipeListScreenParamDto.dart';
 import 'package:pinoy_recipes/DataAccess/DatabaseRepository.dart';
 import 'package:pinoy_recipes/Enums/Enums.dart';
@@ -204,7 +206,7 @@ class _CategoryState extends State<Category> {
                   image: NetworkImage(url),
                   fit: BoxFit.cover,
                 ),
-                color: Colors.teal,
+                color: Colors.tealAccent,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey,
@@ -260,7 +262,6 @@ class _CategoryState extends State<Category> {
         }
       },
     );
-    debugPrint('====HERE===');
     await _loadCategories(selectedCategory.category);
   }
 
@@ -274,9 +275,6 @@ class _CategoryState extends State<Category> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           ...categories.map((e) => getCategoryButton(e)).toList(),
-          // getCategoryButton('By Ingredients', false),
-          // getCategoryButton('By Course', false),
-          // getCategoryButton('By Type', false),
         ],
       ),
     );

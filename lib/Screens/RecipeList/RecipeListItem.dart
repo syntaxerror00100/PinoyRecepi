@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:pinoy_recipes/Models/RecepiModel.dart';
 import '../RecipeDetails/RecipeDetailsScreen.dart';
 import '../RecipeDetails/RecipeDetailsScreen_new.dart';
@@ -61,10 +62,14 @@ class RecepiListItem extends StatelessWidget {
   Widget _getTitle(BuildContext ctx) {
     return Container(
       padding: EdgeInsets.all(10),
-      child: Text(
-        recepi.title,
-        style: Theme.of(ctx).textTheme.headline6,
-        overflow: TextOverflow.fade,
+      child: Row(
+        children: <Widget>[
+          Text(
+            recepi.title,
+            style: Theme.of(ctx).textTheme.headline6,
+            overflow: TextOverflow.fade,
+          ),
+        ],
       ),
       decoration: BoxDecoration(
         color: Colors.black54,
@@ -89,12 +94,16 @@ class RecepiListItem extends StatelessWidget {
           width: double.infinity,
           fit: BoxFit.cover,
           imageUrl: recepi.thumbNailUrl,
-          //placeholder: (_, __) => CircularProgressIndicator(),
-          progressIndicatorBuilder: (context, url, downloadProgress) =>
-              CircularProgressIndicator(
-            value: downloadProgress.progress,
+          placeholder: (_, __) => Lottie.asset(
+            'assets/image-loading.json',
+            height: 200,
+            fit: BoxFit.fill,
           ),
-          errorWidget: (context, url, error) => Icon(Icons.error),
+          // progressIndicatorBuilder: (context, url, downloadProgress) =>
+          //     CircularProgressIndicator(
+          //   value: downloadProgress.progress,
+          // ),
+          // errorWidget: (context, url, error) => Icon(Icons.error),
         ),
       ),
     );
@@ -122,9 +131,6 @@ class RecepiListItem extends StatelessWidget {
                 ),
               ),
             ),
-            // Icon(
-            //   Icons.favorite_border,
-            // )
           ],
         ),
       ),
