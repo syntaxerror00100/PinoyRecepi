@@ -4,14 +4,18 @@ import 'package:pinoy_recipes/Models/RecepiModel.dart';
 import '../RecipeDetails/Ingredients.dart';
 import '../RecipeDetails/Instructions.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import '../../DataAccess/DatabaseRepository.dart';
 
 class RecipeDetailsWithTabScreen extends StatelessWidget {
   static const String route = 'recipe-details-with-tabs';
+  BuildContext _mainContext;
+  RecepiModel _selectedRecepi;
+  bool _isFavorite = false;
 
   @override
   Widget build(BuildContext context) {
-    final RecepiModel selectedRecepi =
-        ModalRoute.of(context).settings.arguments;
+    _mainContext = context;
+    _selectedRecepi = ModalRoute.of(context).settings.arguments;
 
     return SafeArea(
       child: Scaffold(
@@ -27,7 +31,7 @@ class RecipeDetailsWithTabScreen extends StatelessWidget {
           ),
           centerTitle: true,
           title: Text(
-            selectedRecepi.title,
+            _selectedRecepi.title,
             textAlign: TextAlign.left,
             style: TextStyle(
               fontWeight: FontWeight.bold,
@@ -48,9 +52,9 @@ class RecipeDetailsWithTabScreen extends StatelessWidget {
                   child: Container(
                     width: double.infinity,
                     child: Hero(
-                      tag: selectedRecepi.id,
+                      tag: _selectedRecepi.id,
                       child: CachedNetworkImage(
-                        imageUrl: selectedRecepi.thumbNailUrl,
+                        imageUrl: _selectedRecepi.thumbNailUrl,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -58,7 +62,7 @@ class RecipeDetailsWithTabScreen extends StatelessWidget {
                 ),
                 Flexible(
                   flex: 65,
-                  child: getTabUI(selectedRecepi.id),
+                  child: getTabUI(),
                 )
               ],
             ),
@@ -68,7 +72,7 @@ class RecipeDetailsWithTabScreen extends StatelessWidget {
     );
   }
 
-  Widget getTabUI(int selectedRecipeId) {
+  Widget getTabUI() {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
@@ -90,15 +94,53 @@ class RecipeDetailsWithTabScreen extends StatelessWidget {
         body: TabBarView(
           children: [
             Ingredients(
-              recepiId: selectedRecipeId,
+              recepiId: _selectedRecepi.id,
             ),
             Instructions(
-              recepiId: selectedRecipeId,
+              recepiId: _selectedRecepi.id,
             ),
             // Icon(Icons.directions_bike),
           ],
         ),
+        floatingActionButton: _buildFavoriteFloatingActionButton(),
+        // FloatingActionButton(
+        //   onPressed: () {},
+        //   backgroundColor: Colors.white,
+        //   child: Icon(
+        //     isFavorite ? Icons.favorite : Icons.favorite_border,
+        //     size: 35,
+        //     color: Theme.of(_mainContext).accentColor,
+        //   ),
+        // ),
       ),
+    );
+  }
+
+  Widget _buildFavoriteFloatingActionButton() {
+    return FutureBuilder(
+      future: DatabaseRepository.favoriteRepository
+          .isRecipeFavorite(_selectedRecepi.id),
+      builder: (ctx, snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          _isFavorite = (snapshot.data as bool);
+
+          return FloatingActionButton(
+            onPressed: () {
+              DatabaseRepository.favoriteRepository
+                  .setAsFavorite(!_isFavorite, _selectedRecepi.id);
+              _isFavorite = !_isFavorite;
+            },
+            backgroundColor: Colors.white,
+            child: Icon(
+              _isFavorite ? Icons.favorite : Icons.favorite_border,
+              size: 35,
+              color: Theme.of(_mainContext).accentColor,
+            ),
+          );
+        }
+
+        return Text('');
+      },
     );
   }
 }

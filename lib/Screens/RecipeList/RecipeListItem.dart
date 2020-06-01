@@ -2,14 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pinoy_recipes/Models/RecepiModel.dart';
+import 'package:pinoy_recipes/Models/RecipeTagsModel.dart';
 import '../RecipeDetails/RecipeDetailsScreen.dart';
 import '../RecipeDetails/RecipeDetailsScreen_new.dart';
 import '../RecipeDetails/RecipeDetailsWithTabScreen.dart';
+import '../../DataAccess/DatabaseRepository.dart';
 
 class RecepiListItem extends StatelessWidget {
   final RecepiModel recepi;
+  String cookingTime = '';
 
-  const RecepiListItem({Key key, this.recepi}) : super(key: key);
+  RecepiListItem({this.recepi});
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +40,13 @@ class RecepiListItem extends StatelessWidget {
                 _getImageRecepiImage(),
                 Positioned(
                   top: 5,
-                  right: 5,
-                  child: Icon(
-                    Icons.favorite_border,
-                    size: 40,
-                    color: Theme.of(context).accentColor,
-                  ),
+                  right: 8,
+                  child: _buildCookingTime(),
+                  // child: Icon(
+                  //   Icons.favorite_border,
+                  //   size: 40,
+                  //   color: Theme.of(context).accentColor,
+                  // ),
                 ),
                 // Positioned(
                 //   bottom: 10,
@@ -57,6 +61,47 @@ class RecepiListItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget _buildCookingTime() {
+    return FutureBuilder(
+        future: _getRecipeCookingTimeAsync(),
+        builder: (ctx, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.done:
+              debugPrint('=====Snapshot data ay${snapshot.data.toString()}');
+              return _getCoockingTimeWidget(snapshot.data.toString());
+              break;
+
+            default:
+              return Text('');
+          }
+        });
+  }
+
+  Widget _getCoockingTimeWidget(String cookingTimeLabel) {
+    return Row(
+      children: <Widget>[
+        Icon(
+          Icons.timer,
+          size: 30,
+          color: Colors.white,
+        ),
+        Text(
+          cookingTimeLabel,
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        )
+      ],
+    );
+  }
+
+  Future<String> _getRecipeCookingTimeAsync() async {
+    var result = await DatabaseRepository.recipeTagRepository
+        .getCookTimeByRecipeId(recepi.id);
+
+    return result.value;
   }
 
   Widget _getTitle(BuildContext ctx) {

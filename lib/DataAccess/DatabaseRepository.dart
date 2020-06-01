@@ -1,3 +1,5 @@
+import 'package:pinoy_recipes/DataAccess/FavoriteReository.dart';
+
 import './RecipeRepository.dart';
 import './RecipeCourseRepository.dart';
 import './RecipeTypeRepository.dart';
@@ -5,6 +7,7 @@ import './RecipeMainIngredientsRepository.dart';
 import './RecipeIngredientsRepository.dart';
 import './RecipeNutritionsRepository.dart';
 import './RecipeInstructionsRepository.dart';
+import './RecipeTagRepository.dart';
 
 class DatabaseRepository {
   static RecipeRepository _recepiRepository;
@@ -15,6 +18,8 @@ class DatabaseRepository {
   static RecipeIngredientsRepository _recipeIngredientsRepository;
   static RecipeNutritionsRepository _recipeNutritionsRepository;
   static RecipeInstructionsRepository _recipeInstructionsRepository;
+  static RecipeTagRepository _recipeTagRepository;
+  static FavoriteRepository _favoriteRepository;
 
   static void _init() {
     if (_recepiRepository == null) _recepiRepository = RecipeRepository();
@@ -34,6 +39,11 @@ class DatabaseRepository {
       _recipeNutritionsRepository = RecipeNutritionsRepository();
     if (_recipeInstructionsRepository == null)
       _recipeInstructionsRepository = RecipeInstructionsRepository();
+
+    if (_recipeTagRepository == null)
+      _recipeTagRepository = RecipeTagRepository();
+
+    if (_favoriteRepository == null) _favoriteRepository = FavoriteRepository();
   }
 
   static RecipeRepository get recipeRepository {
@@ -69,5 +79,15 @@ class DatabaseRepository {
   static RecipeInstructionsRepository get recipeInstructionsRepository {
     _init();
     return _recipeInstructionsRepository;
+  }
+
+  static RecipeTagRepository get recipeTagRepository {
+    _init();
+    return _recipeTagRepository;
+  }
+
+  static FavoriteRepository get favoriteRepository {
+    _init();
+    return _favoriteRepository;
   }
 }
