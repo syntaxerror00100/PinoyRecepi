@@ -1,10 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
-class SearchBarWidget extends StatelessWidget {
+class SearchBarWidget extends StatefulWidget {
+  final Function isSearchingHandler;
+  final Function searchQueryHandler;
+
+  SearchBarWidget({this.isSearchingHandler, this.searchQueryHandler});
+
+  @override
+  _SearchBarWidgetState createState() => _SearchBarWidgetState();
+}
+
+class _SearchBarWidgetState extends State<SearchBarWidget> {
+  var _searchEditController = TextEditingController();
+
+  @override
+  void initState() {
+    KeyboardVisibilityNotification().addNewListener(
+      onChange: (bool visible) {
+        if (!visible) _unfocusTextbox();
+
+        widget.isSearchingHandler(visible);
+      },
+    );
+
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return getSearchBarUI(context);
+  }
+
+  void _unfocusTextbox() {
+    FocusScope.of(context).requestFocus(FocusNode());
   }
 
   Widget getSearchBarUI(BuildContext context) {
@@ -32,6 +63,7 @@ class SearchBarWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(
                       left: 16, right: 16, top: 4, bottom: 4),
                   child: TextField(
+                    controller: _searchEditController,
                     onChanged: (String txt) {},
                     style: const TextStyle(
                       fontSize: 18,
@@ -66,7 +98,8 @@ class SearchBarWidget extends StatelessWidget {
                   Radius.circular(32.0),
                 ),
                 onTap: () async {
-                  FocusScope.of(context).requestFocus(FocusNode());
+                  _unfocusTextbox();
+                  widget.searchQueryHandler(_searchEditController.text);
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),

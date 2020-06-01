@@ -18,6 +18,23 @@ class RecipeRepository {
     return result.map((x) => RecepiModel.fromMap(x)).toList();
   }
 
+  Future<List<RecepiModel>> searchRecipeBytitle(searchQuery) async {
+    final db = await DatabaseBase.instance.database;
+    // var result = await db
+    //     .query(_tableName, where: "Title LIKE %?%", whereArgs: [searchQuery]);
+
+    // var result = await db
+    //     .rawQuery("SELECT * FROM Recipe WHERE Title LIKE '%$searchQuery%'");
+
+    var result = await db.query(
+      _tableName,
+      where: "Title LIKE ?",
+      whereArgs: ['%$searchQuery%'],
+    );
+
+    return result.map((x) => RecepiModel.fromMap(x)).toList();
+  }
+
   Future<List<RecepiModel>> getRecepiesByCategory(
       CategoryEnum category, String categoryName) async {
     final db = await DatabaseBase.instance.database;

@@ -69,7 +69,8 @@ class RecepiListItem extends StatelessWidget {
         builder: (ctx, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.done:
-              debugPrint('=====Snapshot data ay${snapshot.data.toString()}');
+              if (snapshot.data.toString().isEmpty) return SizedBox();
+
               return _getCoockingTimeWidget(snapshot.data.toString());
               break;
 
@@ -100,6 +101,8 @@ class RecepiListItem extends StatelessWidget {
   Future<String> _getRecipeCookingTimeAsync() async {
     var result = await DatabaseRepository.recipeTagRepository
         .getCookTimeByRecipeId(recepi.id);
+
+    if (result == null) return '';
 
     return result.value;
   }

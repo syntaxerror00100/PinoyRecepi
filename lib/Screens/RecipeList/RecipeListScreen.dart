@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pinoy_recipes/Enums/Enums.dart';
 import 'package:pinoy_recipes/Models/RecepiModel.dart';
+import 'package:pinoy_recipes/Widgets/RecipeList.dart';
 import '../../DTO/RecipeListScreenParamDto.dart';
 import '../../DataAccess/DatabaseRepository.dart';
 import '../../Widgets/LoadingIndicatorWidget.dart';
-import './RecipeListItem.dart';
 
 class RecipesListScreen extends StatelessWidget {
   static const route = 'Recipe-list';
@@ -37,8 +37,10 @@ class RecipesListScreen extends StatelessWidget {
   }
 
   Future<void> fetchAndLoadRecipes() async {
-    _recipes = await DatabaseRepository.recipeRepository
-        .getRecepiesByCategory(_selectedCategoryType, _selectedTitle);
+    _recipes = await DatabaseRepository.recipeRepository.getRecepiesByCategory(
+      _selectedCategoryType,
+      _selectedTitle,
+    );
   }
 
   Widget getRecipeListUIFutureBuilder() {
@@ -58,15 +60,19 @@ class RecipesListScreen extends StatelessWidget {
 
   Widget getRecipeListUI() {
     return Expanded(
-      child: ListView.builder(
-        itemCount: _recipes.length,
-        itemBuilder: (ctx, index) {
-          final recipe = _recipes[index];
-          return RecepiListItem(
-            recepi: recipe,
-          );
-        },
+      child: RecipeList(
+        recipes: _recipes,
       ),
+
+      //  ListView.builder(
+      //   itemCount: _recipes.length,
+      //   itemBuilder: (ctx, index) {
+      //     final recipe = _recipes[index];
+      //     return RecepiListItem(
+      //       recepi: recipe,
+      //     );
+      //   },
+      // ),
     );
   }
 

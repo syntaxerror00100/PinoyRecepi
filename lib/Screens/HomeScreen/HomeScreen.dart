@@ -2,10 +2,18 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import '../../Widgets/SearchBarWidget.dart';
 import 'Category.dart';
+import 'SearchResult.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const route = '/';
-  //BuildContext _mainContext;
+
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool _isSearching = false;
+  String _searchQuery = '';
 
   @override
   Widget build(BuildContext context) {
@@ -15,9 +23,12 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               getAppBarUI(),
-              SearchBarWidget(),
+              SearchBarWidget(
+                isSearchingHandler: _isSearchingHandler,
+                searchQueryHandler: _searchRecipeHandler,
+              ),
               SizedBox(height: 5),
-              Expanded(child: Category()),
+              _buildCategoryOrSearch(),
             ],
           ),
         ),
@@ -42,6 +53,32 @@ class HomeScreen extends StatelessWidget {
         onTap: (index) {},
       ),
     );
+  }
+
+  Widget _buildCategoryOrSearch() {
+    if (!_isSearching && _searchQuery.length == 0)
+      return Expanded(
+        child: Category(),
+      );
+
+    return Expanded(
+      child: SearchResult(
+        searchQuery: _searchQuery,
+      ),
+    );
+  }
+
+  void _searchRecipeHandler(String searchQuery) {
+    debugPrint(searchQuery);
+    setState(() {
+      _searchQuery = searchQuery;
+    });
+  }
+
+  void _isSearchingHandler(bool isSearchingInProgress) {
+    setState(() {
+      _isSearching = isSearchingInProgress;
+    });
   }
 
   Widget getAppBarUI() {

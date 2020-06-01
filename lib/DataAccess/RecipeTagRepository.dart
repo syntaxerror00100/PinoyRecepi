@@ -25,10 +25,11 @@ class RecipeTagRepository {
     final db = await DatabaseBase.instance.database;
 
     var result = await db.query("RecipeTags",
-        where: "RecepiId=? AND Label LIKE '%Cook Time%'",
+        where:
+            "RecepiId=? AND (Label LIKE '%Cook Time%' OR Label like 'Prep Time')",
         whereArgs: [recipeId]);
 
-    if (result == null) return null;
+    if (result == null || result.length == 0) return null;
 
     return RecipeTagsModel.fromMap(result.first);
   }
