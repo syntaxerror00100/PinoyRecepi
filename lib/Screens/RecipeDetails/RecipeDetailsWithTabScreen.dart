@@ -5,6 +5,7 @@ import '../RecipeDetails/Ingredients.dart';
 import '../RecipeDetails/Instructions.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../../DataAccess/DatabaseRepository.dart';
+import '../RecipeDetails/FavoriteIcon.dart';
 
 class RecipeDetailsWithTabScreen extends StatelessWidget {
   static const String route = 'recipe-details-with-tabs';
@@ -102,45 +103,10 @@ class RecipeDetailsWithTabScreen extends StatelessWidget {
             // Icon(Icons.directions_bike),
           ],
         ),
-        floatingActionButton: _buildFavoriteFloatingActionButton(),
-        // FloatingActionButton(
-        //   onPressed: () {},
-        //   backgroundColor: Colors.white,
-        //   child: Icon(
-        //     isFavorite ? Icons.favorite : Icons.favorite_border,
-        //     size: 35,
-        //     color: Theme.of(_mainContext).accentColor,
-        //   ),
-        // ),
+        floatingActionButton: FavoriteIcon(
+          recipeId: _selectedRecepi.id,
+        ),
       ),
-    );
-  }
-
-  Widget _buildFavoriteFloatingActionButton() {
-    return FutureBuilder(
-      future: DatabaseRepository.favoriteRepository
-          .isRecipeFavorite(_selectedRecepi.id),
-      builder: (ctx, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          _isFavorite = (snapshot.data as bool);
-
-          return FloatingActionButton(
-            onPressed: () {
-              DatabaseRepository.favoriteRepository
-                  .setAsFavorite(!_isFavorite, _selectedRecepi.id);
-              _isFavorite = !_isFavorite;
-            },
-            backgroundColor: Colors.white,
-            child: Icon(
-              _isFavorite ? Icons.favorite : Icons.favorite_border,
-              size: 35,
-              color: Theme.of(_mainContext).accentColor,
-            ),
-          );
-        }
-
-        return Text('');
-      },
     );
   }
 }
