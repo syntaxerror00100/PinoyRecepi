@@ -27,7 +27,7 @@ class RecipeDetailsWithTabScreen extends StatelessWidget {
               color: Colors.black,
             ),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).pop('xx');
             },
           ),
           centerTitle: true,

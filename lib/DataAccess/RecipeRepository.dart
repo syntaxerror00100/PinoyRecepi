@@ -18,6 +18,17 @@ class RecipeRepository {
     return result.map((x) => RecepiModel.fromMap(x)).toList();
   }
 
+  Future<List<RecepiModel>> getAllFavoriteRecipe() async {
+    final db = await DatabaseBase.instance.database;
+
+    var result = await db.rawQuery(
+        'SELECT A.* FROM Recipe A INNER JOIN Favorites B ON B.RecepiId = A.Id');
+
+    if (result == null) return null;
+
+    return result.map((x) => RecepiModel.fromMap(x)).toList();
+  }
+
   Future<List<RecepiModel>> searchRecipeBytitle(searchQuery) async {
     final db = await DatabaseBase.instance.database;
     // var result = await db

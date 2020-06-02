@@ -97,7 +97,7 @@ class _CategoryState extends State<Category> {
 
   Widget getCategoryList() {
     return Container(
-      margin: EdgeInsets.all(10),
+      margin: EdgeInsets.only(top: 10, left: 10, right: 10),
       child: GridView(
         children: [
           ...categoryItems

@@ -2,6 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import '../../Widgets/SearchBarWidget.dart';
 import 'Category.dart';
+import 'Favorites.dart';
 import 'SearchResult.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,30 +13,50 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  var pageController = PageController();
+  final _pageController = PageController();
+  int _pageIndex = 0;
 
   bool _isSearching = false;
   String _searchQuery = '';
 
+  var pages = List<Widget>();
+
   @override
   Widget build(BuildContext context) {
+    pages.add(_buildMainPage());
+    pages.add(Center(child: Text('favs')));
+
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              getAppBarUI(),
-              SearchBarWidget(
-                isSearchingHandler: _isSearchingHandler,
-                searchQueryHandler: _searchRecipeHandler,
-              ),
-              SizedBox(height: 5),
-              _buildCategoryOrSearch(),
-            ],
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Theme.of(context).backgroundColor,
+        title: Text(
+          'Pinoy recipes',
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+            letterSpacing: 0.27,
+            color: Colors.black45, // DesignCourseAppTheme.darkerText,
           ),
         ),
       ),
+      body: PageView(
+        children: <Widget>[
+          _buildMainPage(),
+          Favorties(),
+        ],
+        controller: _pageController,
+        pageSnapping: true,
+        //physics: BouncingScrollPhysics(), // NeverScrollableScrollPhysics(),
+        onPageChanged: (index) {
+          setState(() {
+            _pageIndex = index;
+          });
+        },
+      ),
       bottomNavigationBar: CurvedNavigationBar(
+        index: _pageIndex,
         items: [
           Icon(
             Icons.home,
@@ -52,7 +73,16 @@ class _HomeScreenState extends State<HomeScreen> {
         animationCurve: Curves.easeInOut,
         animationDuration: Duration(milliseconds: 300),
         height: 55,
-        onTap: (index) {},
+        onTap: (index) {
+          setState(() {
+            _pageIndex = index;
+          });
+          _pageController.animateToPage(
+            index,
+            duration: Duration(milliseconds: 200),
+            curve: Curves.easeIn,
+          );
+        },
       ),
     );
   }
