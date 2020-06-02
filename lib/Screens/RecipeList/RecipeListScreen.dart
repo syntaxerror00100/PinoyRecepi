@@ -5,6 +5,7 @@ import 'package:pinoy_recipes/Widgets/RecipeList.dart';
 import '../../DTO/RecipeListScreenParamDto.dart';
 import '../../DataAccess/DatabaseRepository.dart';
 import '../../Widgets/LoadingIndicatorWidget.dart';
+import '../../Widgets/RecipeListNew.dart';
 
 class RecipesListScreen extends StatelessWidget {
   static const route = 'Recipe-list';

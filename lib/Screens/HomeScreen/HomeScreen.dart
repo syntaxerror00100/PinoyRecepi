@@ -12,6 +12,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  var pageController = PageController();
+
   bool _isSearching = false;
   String _searchQuery = '';
 
@@ -55,6 +57,19 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  Widget _buildMainPage() {
+    return Column(
+      children: <Widget>[
+        SearchBarWidget(
+          isSearchingHandler: _isSearchingHandler,
+          searchQueryHandler: _searchRecipeHandler,
+        ),
+        const SizedBox(height: 5),
+        _buildCategoryOrSearch(),
+      ],
+    );
+  }
+
   Widget _buildCategoryOrSearch() {
     if (!_isSearching && _searchQuery.length == 0)
       return Expanded(
@@ -76,6 +91,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _isSearchingHandler(bool isSearchingInProgress) {
+    if (_searchQuery.length > 0) return;
+
     setState(() {
       _isSearching = isSearchingInProgress;
     });

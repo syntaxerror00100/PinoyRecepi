@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
+// import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 class SearchBarWidget extends StatefulWidget {
   final Function isSearchingHandler;
@@ -17,13 +18,19 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
 
   @override
   void initState() {
-    KeyboardVisibilityNotification().addNewListener(
-      onChange: (bool visible) {
-        if (!visible) _unfocusTextbox();
+    // KeyboardVisibilityNotification().addNewListener(
+    //   onChange: (bool visible) {
+    //     if (!visible) _unfocusTextbox();
 
-        widget.isSearchingHandler(visible);
-      },
-    );
+    //     widget.isSearchingHandler(visible);
+    //   },
+    // );
+
+    KeyboardVisibility.onChange.listen((bool visible) {
+      if (!visible) _unfocusTextbox();
+
+      widget.isSearchingHandler(visible);
+    });
 
     // TODO: implement initState
     super.initState();
@@ -64,7 +71,10 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                       left: 16, right: 16, top: 4, bottom: 4),
                   child: TextField(
                     controller: _searchEditController,
-                    onChanged: (String txt) {},
+                    onChanged: (String txt) {
+                      if (txt.length == 0)
+                        widget.searchQueryHandler(_searchEditController.text);
+                    },
                     style: const TextStyle(
                       fontSize: 18,
                     ),
