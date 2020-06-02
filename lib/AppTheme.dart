@@ -38,6 +38,9 @@ class AppTheme {
   // Orange
   static Color darkOrange = Color(0xFFFFB74D);
 
+  //text color
+  static Color textColor = Colors.black54.withOpacity(.65);
+
   static ThemeData lighTheme(BuildContext context) {
     return ThemeData(
       backgroundColor: lightBackground,
