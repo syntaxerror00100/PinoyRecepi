@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pinoy_recipes/AppTheme.dart';
 import '../../DataAccess/DatabaseRepository.dart';
 import '../../Models/RecipeInstructionModel.dart';
 
@@ -72,7 +73,10 @@ class Instructions extends StatelessWidget {
       ),
       title: Text(
         insctruction.details,
-        style: Theme.of(ctx).textTheme.headline6,
+        style: Theme.of(ctx)
+            .textTheme
+            .headline6
+            .copyWith(color: AppTheme.textColor),
       ),
       subtitle: Divider(
         color: Colors.grey,

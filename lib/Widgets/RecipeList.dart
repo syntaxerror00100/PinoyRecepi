@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pinoy_recipes/Models/RecepiModel.dart';
 import 'package:pinoy_recipes/Screens/RecipeList/RecipeListItem.dart';
-import 'package:pinoy_recipes/Screens/RecipeList/RecipeListItem2.dart';
 
 class RecipeList extends StatelessWidget {
   final List<RecepiModel> recipes;
@@ -14,7 +13,7 @@ class RecipeList extends StatelessWidget {
       itemCount: recipes.length,
       itemBuilder: (ctx, index) {
         final recipe = recipes[index];
-        return RecepiListItem2(
+        return RecepiListItem(
           recepi: recipe,
         );
       },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../AppTheme.dart';
 import '../../DataAccess/DatabaseRepository.dart';
 import '../../Models/RecipeIngredientModel.dart';
 
@@ -73,7 +74,10 @@ class Ingredients extends StatelessWidget {
       title: Text(
         ingredient.ingredient,
         textAlign: TextAlign.left,
-        style: Theme.of(ctx).textTheme.headline6,
+        style: Theme.of(ctx)
+            .textTheme
+            .headline6
+            .copyWith(color: AppTheme.textColor),
       ),
       subtitle: Divider(
         color: Colors.grey,

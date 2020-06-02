@@ -1,5 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import '../../AppTheme.dart';
 import '../../Widgets/SearchBarWidget.dart';
 import 'Category.dart';
 import 'Favorites.dart';
@@ -37,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
             fontWeight: FontWeight.bold,
             fontSize: 22,
             letterSpacing: 0.27,
-            color: Colors.black45, // DesignCourseAppTheme.darkerText,
+            color: AppTheme.textColor, // DesignCourseAppTheme.darkerText,
           ),
         ),
       ),

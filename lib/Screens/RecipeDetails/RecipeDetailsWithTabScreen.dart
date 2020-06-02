@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:pinoy_recipes/Models/RecepiModel.dart';
+import '../../AppTheme.dart';
 import '../RecipeDetails/Ingredients.dart';
 import '../RecipeDetails/Instructions.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -21,16 +22,17 @@ class RecipeDetailsWithTabScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Theme.of(context).backgroundColor,
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back_ios,
-              color: Colors.black,
+              color: Colors.black54,
             ),
             onPressed: () {
-              Navigator.of(context).pop('xx');
+              Navigator.pop(context);
             },
           ),
-          centerTitle: true,
           title: Text(
             _selectedRecepi.title,
             textAlign: TextAlign.left,
@@ -38,11 +40,9 @@ class RecipeDetailsWithTabScreen extends StatelessWidget {
               fontWeight: FontWeight.bold,
               fontSize: 22,
               letterSpacing: 0.27,
-              color: Colors.black87, // DesignCourseAppTheme.darkerText,
+              color: AppTheme.textColor, // DesignCourseAppTheme.darkerText,
             ),
           ),
-          backgroundColor: Theme.of(context).backgroundColor,
-          elevation: 0,
         ),
         body: Center(
           child: Container(

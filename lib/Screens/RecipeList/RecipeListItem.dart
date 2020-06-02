@@ -2,9 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:pinoy_recipes/Models/RecepiModel.dart';
-import 'package:pinoy_recipes/Models/RecipeTagsModel.dart';
-import '../RecipeDetails/RecipeDetailsScreen.dart';
-import '../RecipeDetails/RecipeDetailsScreen_new.dart';
+import '../../AppTheme.dart';
 import '../RecipeDetails/RecipeDetailsWithTabScreen.dart';
 import '../../DataAccess/DatabaseRepository.dart';
 
@@ -17,8 +15,15 @@ class RecepiListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 270,
+      height: 250,
       width: double.infinity,
+      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(15.0)),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(color: Colors.black.withAlpha(100), blurRadius: 10.0),
+          ]),
       child: InkWell(
         onTap: () {
           Navigator.pushNamed(
@@ -27,15 +32,7 @@ class RecepiListItem extends StatelessWidget {
             arguments: recepi,
           );
         },
-        child: Card(
-          elevation: 4,
-          margin: EdgeInsets.symmetric(
-            horizontal: 20,
-            vertical: 10,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
+        child: Container(
           child: Column(
             children: <Widget>[
               Stack(
@@ -178,7 +175,7 @@ class RecepiListItem extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   softWrap: true,
                   style: Theme.of(ctx).textTheme.headline6.copyWith(
-                        color: Colors.black87,
+                        color: AppTheme.textColor,
                       ),
                 ),
               ),

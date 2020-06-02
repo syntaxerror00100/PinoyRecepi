@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:pinoy_recipes/Enums/Enums.dart';
 import 'package:pinoy_recipes/Models/RecepiModel.dart';
 import 'package:pinoy_recipes/Widgets/RecipeList.dart';
+import '../../AppTheme.dart';
 import '../../DTO/RecipeListScreenParamDto.dart';
 import '../../DataAccess/DatabaseRepository.dart';
 import '../../Widgets/LoadingIndicatorWidget.dart';
-import '../../Widgets/RecipeListNew.dart';
 
 class RecipesListScreen extends StatelessWidget {
   static const route = 'Recipe-list';
@@ -24,15 +24,34 @@ class RecipesListScreen extends StatelessWidget {
     _selectedCategoryType = navigationParam.category;
 
     return Scaffold(
-      body: SafeArea(
-        child: Container(
-          child: Column(
-            children: <Widget>[
-              getAppBarUI(context, _selectedTitle),
-              getRecipeListUIFutureBuilder(),
-            ],
+      appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Theme.of(context).backgroundColor,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: AppTheme.textColor,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: Text(
+          _selectedTitle,
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+            letterSpacing: 0.27,
+            color: AppTheme.textColor, // DesignCourseAppTheme.darkerText,
           ),
         ),
+      ),
+      body: Column(
+        children: <Widget>[
+          // getAppBarUI(context, _selectedTitle),
+          getRecipeListUIFutureBuilder(),
+        ],
       ),
     );
   }
