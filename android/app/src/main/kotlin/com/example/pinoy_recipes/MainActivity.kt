@@ -1,4 +1,4 @@
-package com.example.pinoy_recipes
+package com.syntaxerror.pinoy_recipes
 
 import io.flutter.embedding.android.FlutterActivity
 
